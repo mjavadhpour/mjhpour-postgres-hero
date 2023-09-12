@@ -41,7 +41,7 @@ ARG TZ
 ENV LANG=en_US.UTF-8 \
     LC_COLLATE=en_US.UTF-8 \
     LC_CTYPE=en_US.UTF-8 \
-    TZ
+    TZ=${TZ}
 
 RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen \
     && locale-gen \
