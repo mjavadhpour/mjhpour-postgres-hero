@@ -58,6 +58,7 @@ RUN set -eux; \
     mkdir /tmp/pg_hashids && wget -qO- "https://github.com/iCyberon/pg_hashids/archive/refs/heads/master.tar.gz"                       | tar zxf - -C /tmp/pg_hashids --strip-components=1; \
     mkdir /tmp/hll        && wget -qO- "https://github.com/citusdata/postgresql-hll/archive/refs/tags/v2.17.tar.gz"                    | tar zxf - -C /tmp/hll        --strip-components=1; \
     mkdir /tmp/plv8       && wget -qO- "https://github.com/plv8/plv8/archive/refs/tags/v3.2.0.tar.gz"                                  | tar zxf - -C /tmp/plv8       --strip-components=1; \
+    mkdir /tmp/pg_jobmon  && wget -qO- "https://github.com/omniti-labs/pg_jobmon/archive/refs/heads/master.tar.gz"                     | tar zxf - -C /tmp/pg_jobmon  --strip-components=1; \
     # mkdir /tmp/plr        && wget -qO- "https://github.com/postgres-plr/plr/archive/refs/tags/REL8_4_6.tar.gz"                         | tar zxf - -C /tmp/plr        --strip-components=1; \
     \
     # age
@@ -74,6 +75,10 @@ RUN set -eux; \
     \
     # plv8
         cd /tmp/plv8 \
+        && make && make install; \
+    \
+    # pg_jobmon
+        cd /tmp/pg_jobmon \
         && make && make install; \
     \
     # plr

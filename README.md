@@ -8,6 +8,7 @@ docker pull mjhpour/postgres-hero
 - https://github.com/apache/age
 - https://github.com/iCyberon/pg_hashids
 - https://github.com/citusdata/postgresql-hll
+- https://github.com/omniti-labs/pg_jobmon
 - https://www.postgresql.org/docs/current/external-projects.html
 
 #### TODO exts:
