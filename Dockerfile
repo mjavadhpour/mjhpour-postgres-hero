@@ -49,8 +49,6 @@ RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen \
     ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime \
     && echo $TZ > /etc/timezone;
 
-WORKDIR /opt/postgres-ext
-
 RUN set -eux; \
     mkdir /tmp/age        && wget -qO- "https://github.com/apache/age/releases/download/PG15%2Fv1.4.0-rc0/apache-age-1.4.0-src.tar.gz" | tar zxf - -C /tmp/age        --strip-components=1; \
     mkdir /tmp/pg_hashids && wget -qO- "https://github.com/iCyberon/pg_hashids/archive/refs/heads/master.tar.gz"                       | tar zxf - -C /tmp/pg_hashids --strip-components=1; \
@@ -71,11 +69,13 @@ RUN set -eux; \
     # cleanup
         rm -rf /tmp/*;
 
-COPY docker-entrypoint-initdb.d/00-create-extension-*.sql /docker-entrypoint-initdb.d/
+COPY docker-entrypoint-initdb.d/*-create-extension-*.sql /docker-entrypoint-initdb.d/
 
-CMD ["postgres", "-c", "shared_preload_libraries=age,pg_hashids,hll"]
+WORKDIR /opt/postgres-hero
+CMD ["postgres", "-c", "shared_preload_libraries=age,pg_hashids,hll,dblink,plpython3u"]
 
-LABEL timezone="${TZ}"
-LABEL image_base="postgres:15"
-LABEL postgres_version="${POSTGRES_VERSION}"
-LABEL extensions="age,pg_hashids,hll"
+LABEL TIMEZONE="${TZ}"
+LABEL BASE_IMAGE="postgres:15"
+LABEL POSTGRES_VERSION="${POSTGRES_VERSION}"
+LABEL OS="Debian GNU/Linux 12 (bookworm)"
+LABEL EXTENSIONS="age,pg_hashids,hll,dblink,plpython3u"
