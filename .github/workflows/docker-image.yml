@@ -19,6 +19,6 @@ jobs:
         DOCKER_USER: ${{ secrets.DOCKER_REPOSITORY }}
         DOCKER_PASS: ${{ secrets.DOCKER_ACCESS_TOKEN }}
       run: |
-        docker login -u $SUPER_SECRET -p $DOCKER_PASS
+        docker login -u $DOCKER_USER -p $DOCKER_PASS
         docker build . --file Dockerfile --tag mjhpour/postgres-hero:dev
         docker push mjhpour/postgres-hero:dev
