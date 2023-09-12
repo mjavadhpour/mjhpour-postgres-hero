@@ -70,7 +70,7 @@ RUN set -eux; \
 
 COPY docker-entrypoint-initdb.d/00-create-extension-*.sql /docker-entrypoint-initdb.d/
 
-CMD ["postgres", "-c", "shared_preload_libraries=age,faker"]
+CMD ["postgres", "-c", "shared_preload_libraries=age"]
 
 LABEL timezone="${TZ}"
 LABEL image_base="postgres:15"
