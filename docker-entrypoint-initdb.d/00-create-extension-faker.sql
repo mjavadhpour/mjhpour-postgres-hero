@@ -16,4 +16,5 @@
 -- limitations under the License.
 --
 
-CREATE EXTENSION faker;
+CREATE SCHEMA faker;
+CREATE EXTENSION IF NOT EXISTS faker SCHEMA faker CASCADE;
