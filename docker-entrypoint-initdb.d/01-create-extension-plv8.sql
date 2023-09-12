@@ -16,4 +16,4 @@
 -- limitations under the License.
 --
 
-CREATE EXTENSION plpython3u;
+CREATE EXTENSION plv8;
