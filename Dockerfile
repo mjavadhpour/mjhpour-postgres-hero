@@ -58,8 +58,8 @@ RUN set -eux; \
     \
     # faker
         cd /tmp/faker \
-        && pip3 install -r requirements.txt \
-        && make extension && make install; \
+        && pip3 install -r requirements.txt --break-system-packages \
+        && make clean && make && make install; \
     \
     # age
         cd /tmp/age \
