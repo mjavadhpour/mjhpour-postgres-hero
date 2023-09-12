@@ -16,5 +16,4 @@
 -- limitations under the License.
 --
 
-CREATE SCHEMA jobmon;
-CREATE EXTENSION pg_jobmon SCHEMA jobmon;
+CREATE EXTENSION pg_jobmon;
