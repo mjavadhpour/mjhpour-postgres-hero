@@ -51,18 +51,23 @@ RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen \
 WORKDIR /opt/postgres-ext
 
 RUN set -eux; \
-    mkdir /tmp/age   && wget -qO- "https://github.com/apache/age/releases/download/PG15%2Fv1.4.0-rc0/apache-age-1.4.0-src.tar.gz" | tar zxf - -C /tmp/age   --strip-components=1; \
+    mkdir /tmp/age        && wget -qO- "https://github.com/apache/age/releases/download/PG15%2Fv1.4.0-rc0/apache-age-1.4.0-src.tar.gz" | tar zxf - -C /tmp/age        --strip-components=1; \
+    mkdir /tmp/pg_hashids && wget -qO- "https://github.com/iCyberon/pg_hashids/archive/refs/heads/master.tar.gz"                       | tar zxf - -C /tmp/pg_hashids --strip-components=1; \
     \
     # age
         cd /tmp/age \
         && make && make install; \
     \
+    # pg_hashids
+        cd /tmp/pg_hashids \
+        && USE_PGXS=1 make && SE_PGXS=1 make install; \
+    \
     # cleanup
-        rm -rf /tmp/age;
+        rm -rf /tmp/*;
 
 COPY docker-entrypoint-initdb.d/00-create-extension-*.sql /docker-entrypoint-initdb.d/
 
-CMD ["postgres", "-c", "shared_preload_libraries=age"]
+CMD ["postgres", "-c", "shared_preload_libraries=age,pg_hashids"]
 
 LABEL timezone="${TZ}"
 LABEL image_base="postgres:15"
