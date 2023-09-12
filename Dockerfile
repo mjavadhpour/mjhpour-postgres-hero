@@ -57,7 +57,7 @@ RUN set -eux; \
     mkdir /tmp/age        && wget -qO- "https://github.com/apache/age/releases/download/PG15%2Fv1.4.0-rc0/apache-age-1.4.0-src.tar.gz" | tar zxf - -C /tmp/age        --strip-components=1; \
     mkdir /tmp/pg_hashids && wget -qO- "https://github.com/iCyberon/pg_hashids/archive/refs/heads/master.tar.gz"                       | tar zxf - -C /tmp/pg_hashids --strip-components=1; \
     mkdir /tmp/hll        && wget -qO- "https://github.com/citusdata/postgresql-hll/archive/refs/tags/v2.17.tar.gz"                    | tar zxf - -C /tmp/hll        --strip-components=1; \
-    mkdir /tmp/plv8       && wget -qO- "https://github.com/plv8/plv8/archive/refs/tags/v3.2.0.tar.gz"                                  | tar zxf - -C /tmp/plv8       --strip-components=1; \
+    mkdir /tmp/plv8       && git clone "https://github.com/plv8/plv8.git" "/tmp/plv8"                                                                                                     ; \
     mkdir /tmp/pg_jobmon  && wget -qO- "https://github.com/omniti-labs/pg_jobmon/archive/refs/heads/master.tar.gz"                     | tar zxf - -C /tmp/pg_jobmon  --strip-components=1; \
     mkdir /tmp/pg_partman && wget -qO- "https://github.com/pgpartman/pg_partman/archive/refs/heads/master.tar.gz"                      | tar zxf - -C /tmp/pg_partman --strip-components=1; \
     # mkdir /tmp/plr        && wget -qO- "https://github.com/postgres-plr/plr/archive/refs/tags/REL8_4_6.tar.gz"                         | tar zxf - -C /tmp/plr        --strip-components=1; \
@@ -96,7 +96,7 @@ RUN set -eux; \
 COPY docker-entrypoint-initdb.d/*-create-extension-*.sql /docker-entrypoint-initdb.d/
 
 WORKDIR /opt/postgres-hero
-CMD ["postgres", "-c", "shared_preload_libraries=age,pg_hashids,hll,dblink,plpython3u,plperl,plv8,pg_jobmon,pg_partman"]
+CMD ["postgres", "-c", "shared_preload_libraries=age,pg_hashids,hll,dblink,plperl,pg_partman_bgw"]
 
 LABEL TIMEZONE="${TZ}"
 LABEL BASE_IMAGE="postgres:15"

@@ -1,5 +1,5 @@
 ```sh
-docker pull mjhpour/postgres-hero
+docker pull mjhpour/postgres-hero:dev
 ```
 
 #### See Also
@@ -11,6 +11,7 @@ docker pull mjhpour/postgres-hero
 - https://github.com/omniti-labs/pg_jobmon
 - https://github.com/pgpartman/pg_partman
 - https://www.postgresql.org/docs/current/external-projects.html
+- https://www.postgresql.org/docs/current/contrib.html
 
 #### TODO exts:
 - https://github.com/pgMemento/pgMemento
