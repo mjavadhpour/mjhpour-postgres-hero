@@ -68,7 +68,7 @@ RUN set -eux; \
     # cleanup
         rm -rf /tmp/faker /tmp/age;
 
-COPY docker/docker-entrypoint-initdb.d/00-create-extension-*.sql /docker-entrypoint-initdb.d/
+COPY docker-entrypoint-initdb.d/00-create-extension-*.sql /docker-entrypoint-initdb.d/
 
 CMD ["postgres", "-c", "shared_preload_libraries=age,faker"]
 
