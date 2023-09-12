@@ -72,4 +72,4 @@ CMD ["postgres", "-c", "shared_preload_libraries=age,pg_hashids"]
 LABEL timezone="${TZ}"
 LABEL image_base="postgres:15"
 LABEL postgres_version="${POSTGRES_VERSION}"
-LABEL extensions="age"
+LABEL extensions="age,pg_hashids"
