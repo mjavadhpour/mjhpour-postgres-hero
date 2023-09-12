@@ -33,6 +33,7 @@ RUN apt-get update \
        locales \
        postgresql-server-dev-${POSTGRES_VERSION} \
        postgresql-plpython3-${POSTGRES_VERSION} \
+       postgresql-plperl-${POSTGRES_VERSION} \
        python3-pip \
     && rm -rf /var/lib/apt/lists/*
 
