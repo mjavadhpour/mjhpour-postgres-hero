@@ -98,8 +98,11 @@ COPY docker-entrypoint-initdb.d/*-create-extension-*.sql /docker-entrypoint-init
 WORKDIR /opt/postgres-hero
 CMD ["postgres", "-c", "shared_preload_libraries=age,pg_hashids,hll,dblink,plperl,pg_partman_bgw"]
 
-LABEL TIMEZONE="${TZ}"
-LABEL BASE_IMAGE="postgres:15"
-LABEL POSTGRES_VERSION="${POSTGRES_VERSION}"
-LABEL OS="Debian GNU/Linux 12 (bookworm)"
-LABEL EXTENSIONS="age,pg_hashids,hll,dblink,plpython3u,plperl,plv8,pg_jobmon,pg_partman"
+LABEL com.docker.hub.postgres-hero.mjhpour.timezone="${TZ}"
+LABEL com.docker.hub.postgres-hero.mjhpour.postgres_version="${POSTGRES_VERSION}"
+LABEL com.docker.hub.postgres-hero.mjhpour.os="Debian GNU/Linux 12 (bookworm)"
+LABEL com.docker.hub.postgres-hero.mjhpour.extensions="age,pg_hashids,hll,dblink,plpython3u,plperl,plv8,pg_jobmon,pg_partman"
+LABEL org.opencontainers.image.base.name="docker.io/postgres:${POSTGRES_VERSION}"
+LABEL org.opencontainers.image.description="Extended Postgres ${POSTGRES_VERSION} with pre installed set of open source extensions"
+LABEL org.opencontainers.image.licenses="Apache-2.0"
+LABEL org.opencontainers.image.vendor="M.J. HPour"

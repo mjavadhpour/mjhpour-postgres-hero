@@ -22,5 +22,12 @@ jobs:
         DOCKER_PASS: ${{ secrets.DOCKER_ACCESS_TOKEN }}
       run: |
         docker login -u $DOCKER_USER -p $DOCKER_PASS
-        docker build . --file Dockerfile --tag mjhpour/postgres-hero:dev
+        docker build . --file Dockerfile --tag mjhpour/postgres-hero:dev \
+          --label "org.opencontainers.image.created=$(date)" \
+          --label "org.opencontainers.image.authors=@mjavadhpour" \
+          --label "org.opencontainers.image.url=https://hub.docker.com/r/mjhpour/postgres-hero" \
+          --label "org.opencontainers.image.documentation=https://github.com/mjavadhpour/mjhpour-postgres-hero/blob/main/README.md" \
+          --label "org.opencontainers.image.source=https://github.com/mjavadhpour/mjhpour-postgres-hero" \
+          --label "org.opencontainers.image.version=dev" \
+          --label "org.opencontainers.image.title=Postgres Hero"
         docker push mjhpour/postgres-hero:dev
