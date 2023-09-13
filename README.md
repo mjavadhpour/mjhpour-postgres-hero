@@ -16,3 +16,18 @@ docker pull mjhpour/postgres-hero:dev
 #### TODO exts:
 - https://github.com/pgMemento/pgMemento
 - https://github.com/citusdata/citus
+- https://github.com/orioledb/orioledb
+- https://github.com/petere/pguri
+- https://github.com/postgrespro/imgsmlr
+- https://github.com/citusdata/pg_cron
+- https://github.com/okbob/pspg
+- https://github.com/hydradatabase/hydra
+- https://github.com/HypoPG/hypopg
+- https://github.com/postgrespro/rum
+- https://github.com/postgrespro/pgsphere
+- https://github.com/postgrespro/jsquery
+- https://github.com/postgrespro/zson
+- https://github.com/postgrespro/aqo
+- https://github.com/psycopg/psycopg2
+- https://github.com/pipelinedb/pipelinedb
+
