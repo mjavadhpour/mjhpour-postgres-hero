@@ -12,13 +12,12 @@ docker pull mjhpour/postgres-hero:dev
 - https://github.com/pgpartman/pg_partman
 - https://www.postgresql.org/docs/current/external-projects.html
 - https://www.postgresql.org/docs/current/contrib.html
+- https://github.com/petere/pguri
 
 #### TODO exts:
 - https://github.com/pgMemento/pgMemento
 - https://github.com/citusdata/citus
 - https://github.com/orioledb/orioledb
-- https://github.com/petere/pguri
-- https://github.com/postgrespro/imgsmlr
 - https://github.com/citusdata/pg_cron
 - https://github.com/okbob/pspg
 - https://github.com/hydradatabase/hydra

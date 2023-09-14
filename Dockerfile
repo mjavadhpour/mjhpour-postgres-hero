@@ -60,6 +60,7 @@ RUN set -eux; \
     mkdir /tmp/plv8       && git clone "https://github.com/plv8/plv8.git" "/tmp/plv8"                                                                                                     ; \
     mkdir /tmp/pg_jobmon  && wget -qO- "https://github.com/omniti-labs/pg_jobmon/archive/refs/heads/master.tar.gz"                     | tar zxf - -C /tmp/pg_jobmon  --strip-components=1; \
     mkdir /tmp/pg_partman && wget -qO- "https://github.com/pgpartman/pg_partman/archive/refs/heads/master.tar.gz"                      | tar zxf - -C /tmp/pg_partman --strip-components=1; \
+    mkdir /tmp/uri        && wget -qO- "https://github.com/petere/pguri/archive/refs/heads/master.tar.gz"                              | tar zxf - -C /tmp/uri        --strip-components=1; \
     # mkdir /tmp/plr        && wget -qO- "https://github.com/postgres-plr/plr/archive/refs/tags/REL8_4_6.tar.gz"                         | tar zxf - -C /tmp/plr        --strip-components=1; \
     \
     # age
@@ -86,6 +87,10 @@ RUN set -eux; \
         cd /tmp/pg_partman \
         && make install; \
     \
+    # uri
+        cd /tmp/uri \
+        && make && make install; \
+    \
     # plr
     #     cd /tmp/plr \
     #     && USE_PGXS=1 make && USE_PGXS=1 make install; \
@@ -101,7 +106,7 @@ CMD ["postgres", "-c", "shared_preload_libraries=age,pg_hashids,hll,dblink,plper
 LABEL com.docker.hub.postgres-hero.mjhpour.timezone="${TZ}"
 LABEL com.docker.hub.postgres-hero.mjhpour.postgres_version="${POSTGRES_VERSION}"
 LABEL com.docker.hub.postgres-hero.mjhpour.os="Debian GNU/Linux 12 (bookworm)"
-LABEL com.docker.hub.postgres-hero.mjhpour.extensions="age,pg_hashids,hll,dblink,plpython3u,plperl,plv8,pg_jobmon,pg_partman"
+LABEL com.docker.hub.postgres-hero.mjhpour.extensions="age,pg_hashids,hll,dblink,plpython3u,plperl,plv8,pg_jobmon,pg_partman,uri"
 LABEL org.opencontainers.image.base.name="docker.io/postgres:${POSTGRES_VERSION}"
 LABEL org.opencontainers.image.description="Extended Postgres ${POSTGRES_VERSION} with pre installed set of open source extensions"
 LABEL org.opencontainers.image.licenses="Apache-2.0"
