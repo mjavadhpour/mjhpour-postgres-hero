@@ -36,6 +36,8 @@ RUN apt-get update \
        postgresql-plperl-${POSTGRES_VERSION} \
        # plv8
        libtinfo5 build-essential pkg-config libstdc++-12-dev cmake git \
+       # pg_cron
+       postgresql-${POSTGRES_VERSION}-cron \
        # plr
     #    r-base r-base-dev \
     && rm -rf /var/lib/apt/lists/*
@@ -101,12 +103,12 @@ RUN set -eux; \
 COPY docker-entrypoint-initdb.d/*-create-extension-*.sql /docker-entrypoint-initdb.d/
 
 WORKDIR /opt/postgres-hero
-CMD ["postgres", "-c", "shared_preload_libraries=age,pg_hashids,hll,dblink,plperl,pg_partman_bgw"]
+CMD ["postgres", "-c", "shared_preload_libraries=age,pg_hashids,hll,dblink,plperl,pg_partman_bgw,pg_cron"]
 
 LABEL com.docker.hub.postgres-hero.mjhpour.timezone="${TZ}"
 LABEL com.docker.hub.postgres-hero.mjhpour.postgres_version="${POSTGRES_VERSION}"
 LABEL com.docker.hub.postgres-hero.mjhpour.os="Debian GNU/Linux 12 (bookworm)"
-LABEL com.docker.hub.postgres-hero.mjhpour.extensions="age,pg_hashids,hll,dblink,plpython3u,plperl,plv8,pg_jobmon,pg_partman,uri"
+LABEL com.docker.hub.postgres-hero.mjhpour.extensions="age,pg_hashids,hll,dblink,plpython3u,plperl,plv8,pg_jobmon,pg_partman,uri,pg_cron"
 LABEL org.opencontainers.image.base.name="docker.io/postgres:${POSTGRES_VERSION}"
 LABEL org.opencontainers.image.description="Extended Postgres ${POSTGRES_VERSION} with pre installed set of open source extensions"
 LABEL org.opencontainers.image.licenses="Apache-2.0"
