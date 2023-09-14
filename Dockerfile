@@ -38,6 +38,8 @@ RUN apt-get update \
        libtinfo5 build-essential pkg-config libstdc++-12-dev cmake git \
        # pg_cron
        postgresql-${POSTGRES_VERSION}-cron \
+       # uri
+       liburiparser-dev \
        # plr
     #    r-base r-base-dev \
     && rm -rf /var/lib/apt/lists/*
