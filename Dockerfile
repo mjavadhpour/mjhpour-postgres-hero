@@ -16,7 +16,7 @@
 # limitations under the License.
 #
 
-ARG TZ="Asia/Tehran" \
+ARG TZ="EST" \
     POSTGRES_VERSION=15
 
 FROM ghcr.io/hydradatabase/hydra:${POSTGRES_VERSION}-c29a08455bc8c7af77a8b3d1605b45cf7f96c4bf
