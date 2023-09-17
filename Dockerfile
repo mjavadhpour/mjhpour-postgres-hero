@@ -19,7 +19,7 @@
 ARG TZ="Asia/Tehran" \
     POSTGRES_VERSION=15
 
-FROM postgres:${POSTGRES_VERSION}
+FROM ghcr.io/hydradatabase/hydra:${POSTGRES_VERSION}-c29a08455bc8c7af77a8b3d1605b45cf7f96c4bf
 
 ARG POSTGRES_VERSION
 RUN apt-get update \
@@ -34,14 +34,12 @@ RUN apt-get update \
        postgresql-server-dev-${POSTGRES_VERSION} \
        python3-pip postgresql-plpython3-${POSTGRES_VERSION} \
        postgresql-plperl-${POSTGRES_VERSION} \
-       # plv8
-       libtinfo5 build-essential pkg-config libstdc++-12-dev cmake git \
+       postgresql-${POSTGRES_VERSION}-plr \
        # pg_cron
        postgresql-${POSTGRES_VERSION}-cron \
        # uri
        liburiparser-dev \
-       # plr
-    #    r-base r-base-dev \
+       pkg-config \
     && rm -rf /var/lib/apt/lists/*
 
 ARG TZ
@@ -61,11 +59,9 @@ RUN set -eux; \
     mkdir /tmp/age        && wget -qO- "https://github.com/apache/age/releases/download/PG15%2Fv1.4.0-rc0/apache-age-1.4.0-src.tar.gz" | tar zxf - -C /tmp/age        --strip-components=1; \
     mkdir /tmp/pg_hashids && wget -qO- "https://github.com/iCyberon/pg_hashids/archive/refs/heads/master.tar.gz"                       | tar zxf - -C /tmp/pg_hashids --strip-components=1; \
     mkdir /tmp/hll        && wget -qO- "https://github.com/citusdata/postgresql-hll/archive/refs/tags/v2.17.tar.gz"                    | tar zxf - -C /tmp/hll        --strip-components=1; \
-    mkdir /tmp/plv8       && git clone "https://github.com/plv8/plv8.git" "/tmp/plv8"                                                                                                     ; \
     mkdir /tmp/pg_jobmon  && wget -qO- "https://github.com/omniti-labs/pg_jobmon/archive/refs/heads/master.tar.gz"                     | tar zxf - -C /tmp/pg_jobmon  --strip-components=1; \
     mkdir /tmp/pg_partman && wget -qO- "https://github.com/pgpartman/pg_partman/archive/refs/heads/master.tar.gz"                      | tar zxf - -C /tmp/pg_partman --strip-components=1; \
     mkdir /tmp/uri        && wget -qO- "https://github.com/petere/pguri/archive/refs/heads/master.tar.gz"                              | tar zxf - -C /tmp/uri        --strip-components=1; \
-    # mkdir /tmp/plr        && wget -qO- "https://github.com/postgres-plr/plr/archive/refs/tags/REL8_4_6.tar.gz"                         | tar zxf - -C /tmp/plr        --strip-components=1; \
     \
     # age
         cd /tmp/age \
@@ -77,10 +73,6 @@ RUN set -eux; \
     \
     # hll
         cd /tmp/hll \
-        && make && make install; \
-    \
-    # plv8
-        cd /tmp/plv8 \
         && make && make install; \
     \
     # pg_jobmon
@@ -95,22 +87,16 @@ RUN set -eux; \
         cd /tmp/uri \
         && make && make install; \
     \
-    # plr
-    #     cd /tmp/plr \
-    #     && USE_PGXS=1 make && USE_PGXS=1 make install; \
-    # \
     # cleanup
         rm -rf /tmp/*;
 
-COPY docker-entrypoint-initdb.d/*-create-extension-*.sql /docker-entrypoint-initdb.d/
-
-WORKDIR /opt/postgres-hero
-CMD ["postgres", "-c", "shared_preload_libraries=age,pg_hashids,hll,dblink,plperl,pg_partman_bgw,pg_cron"]
+COPY docker-entrypoint-initdb.d/00-create-extension-contrib.sql /docker-entrypoint-initdb.d/00-create-extension-contrib.sql
+COPY docker-entrypoint-initdb.d/01-create-extension.sql /docker-entrypoint-initdb.d/01-create-extension.sql
 
 LABEL com.docker.hub.postgres-hero.mjhpour.timezone="${TZ}"
 LABEL com.docker.hub.postgres-hero.mjhpour.postgres_version="${POSTGRES_VERSION}"
 LABEL com.docker.hub.postgres-hero.mjhpour.os="Debian GNU/Linux 12 (bookworm)"
-LABEL com.docker.hub.postgres-hero.mjhpour.extensions="age,pg_hashids,hll,dblink,plpython3u,plperl,plv8,pg_jobmon,pg_partman,uri,pg_cron"
+LABEL com.docker.hub.postgres-hero.mjhpour.extensions="age,pg_hashids,hll,dblink,plpython3u,plperl,pg_jobmon,pg_partman,uri,pg_cron"
 LABEL org.opencontainers.image.base.name="docker.io/postgres:${POSTGRES_VERSION}"
 LABEL org.opencontainers.image.description="Extended Postgres ${POSTGRES_VERSION} with pre installed set of open source extensions"
 LABEL org.opencontainers.image.licenses="Apache-2.0"
