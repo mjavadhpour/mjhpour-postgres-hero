@@ -17,6 +17,8 @@ docker pull mjhpour/postgres-hero:dev
 - https://github.com/hydradatabase/hydra
 
 #### TODO exts:
+- https://github.com/pgvector/pgvector
+- https://github.com/neondatabase/pg_embedding
 - https://github.com/pgMemento/pgMemento
 - https://github.com/citusdata/citus
 - https://github.com/orioledb/orioledb
