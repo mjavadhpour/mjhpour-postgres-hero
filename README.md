@@ -1,10 +1,19 @@
+[![Docker Image CI](https://github.com/mjavadhpour/mjhpour-postgres-hero/actions/workflows/docker-image.yml/badge.svg?branch=main)](https://github.com/mjavadhpour/mjhpour-postgres-hero/actions/workflows/docker-image.yml)
+
+This project is aim to create a reference Docker image that collect set of postgres extensions for learinig/experimenting purpose.
+
 ```sh
 docker pull mjhpour/postgres-hero:dev
+# or
+docker run --rm -p <HOST_PORT>:5432 \
+    -e POSTGRES_USER=hero \
+    -e POSTGRES_PASSWORD=hero \
+    -e POSTGRES_DB=hero \
+    mjhpour/postgres-hero:dev
 ```
 
-#### See Also
+#### Extensions Document
 - https://github.com/postgres-plr
-- https://github.com/plv8/plv8
 - https://github.com/apache/age
 - https://github.com/iCyberon/pg_hashids
 - https://github.com/citusdata/postgresql-hll
@@ -19,6 +28,7 @@ docker pull mjhpour/postgres-hero:dev
 #### TODO exts:
 - https://github.com/pgvector/pgvector
 - https://github.com/neondatabase/pg_embedding
+- https://github.com/plv8/plv8
 - https://github.com/pgMemento/pgMemento
 - https://github.com/citusdata/citus
 - https://github.com/orioledb/orioledb
