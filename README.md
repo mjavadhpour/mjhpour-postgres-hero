@@ -1,6 +1,6 @@
 [![Docker Image CI](https://github.com/mjavadhpour/mjhpour-postgres-hero/actions/workflows/docker-image.yml/badge.svg?branch=main)](https://github.com/mjavadhpour/mjhpour-postgres-hero/actions/workflows/docker-image.yml)
 
-This project is aim to create a reference Docker image that collect set of postgres extensions for learinig/experimenting purpose.
+This project is aim to create a reference Docker image that collect set of postgres extensions for learning/experimenting purpose.
 
 ```sh
 docker pull mjhpour/postgres-hero:dev
