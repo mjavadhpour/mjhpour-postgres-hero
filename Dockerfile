@@ -17,9 +17,10 @@
 #
 
 ARG TZ="EST" \
-    POSTGRES_VERSION=15
+    POSTGRES_VERSION=15 \
+    HYDRA_VERSION=${POSTGRES_VERSION}-97cbedb4534713030b4a0e93b817012d759c371c
 
-FROM ghcr.io/hydradatabase/hydra:${POSTGRES_VERSION}-c29a08455bc8c7af77a8b3d1605b45cf7f96c4bf
+FROM ghcr.io/hydradatabase/hydra:${HYDRA_VERSION}
 
 ARG POSTGRES_VERSION
 RUN apt-get update \
