@@ -21,7 +21,8 @@
 ARG TZ="EST" \
     POSTGRES_VERSION=15 \
     HYDRA_VERSION=${POSTGRES_VERSION}-97cbedb4534713030b4a0e93b817012d759c371c \
-    DEFAULT_TRANSFORMER_MODEL=multi-qa-MiniLM-L6-cos-v1
+    DEFAULT_MODEL=multi-qa-MiniLM-L6-cos-v1 \
+    PG_TRANSFORMERS_CACHE=/var/lib/postgresql/.cache/pg_transformers
 
 FROM ghcr.io/hydradatabase/hydra:${HYDRA_VERSION}
 
@@ -131,14 +132,11 @@ RUN --mount=type=cache,target=/root/.cache/pip \
     --mount=type=bind,source=docker.requirements.txt,target=/tmp/docker.requirements.txt \
  pip3 install --requirement=/tmp/docker.requirements.txt --break-system-packages
 
-# Download default transformer model
-ARG DEFAULT_MODEL
-RUN --mount=type=cache,target=/var/lib/postgresql/.cache/huggingface \
-    --mount=type=cache,target=/var/lib/postgresql/.cache/torch \
-    <<EOF
-set -e
-python3 -c "__import__('sentence_transformers').SentenceTransformer(model_name_or_path='${DEFAULT_MODEL}', cache_folder='/var/lib/postgresql/.cache')"
-EOF
+# setup variables for default embedder model
+ARG DEFAULT_MODEL \
+    PG_TRANSFORMERS_CACHE
+ENV PG_TRANSFORMERS_CACHE=${PG_TRANSFORMERS_CACHE} \
+    DEFAULT_MODEL=${DEFAULT_MODEL}
 
 COPY docker-entrypoint-initdb.d /docker-entrypoint-initdb.d
 
