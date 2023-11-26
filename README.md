@@ -1,4 +1,4 @@
-[![Docker Image CI](https://github.com/mjavadhpour/mjhpour-postgres-hero/actions/workflows/docker-image.yml/badge.svg?branch=main)](https://github.com/mjavadhpour/mjhpour-postgres-hero/actions/workflows/docker-image.yml)
+[![Docker Image CI](https://github.com/mjavadhpour/mjhpour-postgres-hero/actions/workflows/docker-image.yml/badge.svg)](https://github.com/mjavadhpour/mjhpour-postgres-hero/actions/workflows/docker-image.yml)
 
 This project is aim to create a reference Docker image that collect set of postgres extensions for learning/experimenting purpose.
 
