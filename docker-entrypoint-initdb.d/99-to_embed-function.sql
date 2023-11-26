@@ -4,7 +4,7 @@ as
 $$
 from sentence_transformers import SentenceTransformer
 import numpy as np 
-model = SentenceTransformer(model_name_or_path=model_name, cache_folder="/root/.cache")
+model = SentenceTransformer(model_name_or_path=model_name, cache_folder="/var/lib/postgresql/.cache")
 return np.array2string(model.encode(text), formatter=None, separator=',')
 $$;
 

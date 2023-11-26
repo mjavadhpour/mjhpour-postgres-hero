@@ -133,11 +133,11 @@ RUN --mount=type=cache,target=/root/.cache/pip \
 
 # Download default transformer model
 ARG DEFAULT_MODEL
-RUN --mount=type=cache,target=/root/.cache/huggingface \
-    --mount=type=cache,target=/root/.cache/torch \
+RUN --mount=type=cache,target=/var/lib/postgresql/.cache/huggingface \
+    --mount=type=cache,target=/var/lib/postgresql/.cache/torch \
     <<EOF
 set -e
-python3 -c "__import__('sentence_transformers').SentenceTransformer(model_name_or_path='${DEFAULT_MODEL}', cache_folder='/root/.cache')"
+python3 -c "__import__('sentence_transformers').SentenceTransformer(model_name_or_path='${DEFAULT_MODEL}', cache_folder='/var/lib/postgresql/.cache')"
 EOF
 
 COPY docker-entrypoint-initdb.d /docker-entrypoint-initdb.d
