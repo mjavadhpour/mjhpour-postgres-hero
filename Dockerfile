@@ -145,7 +145,7 @@ COPY docker-entrypoint-initdb.d /docker-entrypoint-initdb.d
 LABEL com.docker.hub.postgres-hero.mjhpour.timezone="${TZ}"
 LABEL com.docker.hub.postgres-hero.mjhpour.postgres_version="${POSTGRES_VERSION}"
 LABEL com.docker.hub.postgres-hero.mjhpour.os="Debian GNU/Linux 12 (bookworm)"
-LABEL com.docker.hub.postgres-hero.mjhpour.extensions="age,dblink,faker,hll,ltree,pg_cron,pg_hashids,pg_jobmon,pg_partman,pg_trgm,pgRouting,pgvector,plperl,plpython3u,plr,PostGIS,uri"
+LABEL com.docker.hub.postgres-hero.mjhpour.extensions="age,dblink,faker,hll,ltree,pg_cron,pg_hashids,pg_jobmon,pg_partman,pg_trgm,pgRouting,pgvector,plperl,plpython3u,plr,PostGIS"
 LABEL org.opencontainers.image.base.name="docker.io/postgres:${POSTGRES_VERSION}"
 LABEL org.opencontainers.image.description="Extended Postgres ${POSTGRES_VERSION} with pre installed set of open source extensions"
 LABEL org.opencontainers.image.licenses="Apache-2.0"
