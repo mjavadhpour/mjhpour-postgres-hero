@@ -39,6 +39,8 @@ RUN apt-get update \
     locales \
     pkg-config \
     postgresql-server-dev-${POSTGRES_VERSION} \
+    # uri
+    liburiparser-dev \
     # *******************
     # Packaged extensions
     # *******************
@@ -60,9 +62,6 @@ RUN apt-get update \
     \
     # pg_cron
     postgresql-${POSTGRES_VERSION}-cron \
-    \
-    # uri
-    liburiparser-dev \
     \
     && rm -rf /var/lib/apt/lists/*
 
