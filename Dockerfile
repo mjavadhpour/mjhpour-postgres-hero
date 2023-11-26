@@ -140,8 +140,7 @@ set -e
 python3 -c "__import__('sentence_transformers').SentenceTransformer(model_name_or_path='${DEFAULT_MODEL}', cache_folder='/root/.cache')"
 EOF
 
-COPY docker-entrypoint-initdb.d/00-create-extension-contrib.sql /docker-entrypoint-initdb.d/00-create-extension-contrib.sql
-COPY docker-entrypoint-initdb.d/01-create-extension.sql /docker-entrypoint-initdb.d/01-create-extension.sql
+COPY docker-entrypoint-initdb.d /docker-entrypoint-initdb.d
 
 LABEL com.docker.hub.postgres-hero.mjhpour.timezone="${TZ}"
 LABEL com.docker.hub.postgres-hero.mjhpour.postgres_version="${POSTGRES_VERSION}"
