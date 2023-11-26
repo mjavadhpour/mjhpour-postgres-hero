@@ -18,29 +18,52 @@
 
 ARG TZ="EST" \
     POSTGRES_VERSION=15 \
-    HYDRA_VERSION=${POSTGRES_VERSION}-97cbedb4534713030b4a0e93b817012d759c371c
+    HYDRA_VERSION=${POSTGRES_VERSION}-97cbedb4534713030b4a0e93b817012d759c371c \
+    DEFAULT_TRANSFORMER_MODEL=multi-qa-MiniLM-L6-cos-v1
 
 FROM ghcr.io/hydradatabase/hydra:${HYDRA_VERSION}
 
 ARG POSTGRES_VERSION
 RUN apt-get update \
     && apt-get install -y --no-install-recommends --no-install-suggests \
-       # Image deps
-       bison \
-       build-essential \
-       flex \
-       wget \
-       # Runtime deps
-       locales \
-       postgresql-server-dev-${POSTGRES_VERSION} \
-       python3-pip postgresql-plpython3-${POSTGRES_VERSION} \
-       postgresql-plperl-${POSTGRES_VERSION} \
-       postgresql-${POSTGRES_VERSION}-plr \
-       # pg_cron
-       postgresql-${POSTGRES_VERSION}-cron \
-       # uri
-       liburiparser-dev \
-       pkg-config \
+    # *******************
+    # Image deps
+    # *******************
+    bison \
+    build-essential \
+    flex \
+    wget \
+    # *******************
+    # Runtime deps
+    # *******************
+    locales \
+    pkg-config \
+    postgresql-server-dev-${POSTGRES_VERSION} \
+    # *******************
+    # Packaged extensions
+    # *******************
+    \
+    # plpython3u
+    python3-pip postgresql-plpython3-${POSTGRES_VERSION} \
+    \
+    # plr
+    postgresql-${POSTGRES_VERSION}-plr \
+    \
+    # plperl
+    postgresql-plperl-${POSTGRES_VERSION} \
+    \
+    # PostGIS
+    postgresql-${POSTGRES_VERSION}-postgis-3 \
+    \
+    # pgRouting
+    postgresql-${POSTGRES_VERSION}-pgrouting \
+    \
+    # pg_cron
+    postgresql-${POSTGRES_VERSION}-cron \
+    \
+    # uri
+    liburiparser-dev \
+    \
     && rm -rf /var/lib/apt/lists/*
 
 ARG TZ
@@ -102,13 +125,27 @@ RUN set -eux; \
     # cleanup
         rm -rf /tmp/*;
 
+# Install python transformer library to be used inside postgres
+RUN --mount=type=cache,target=/root/.cache/pip \
+    --mount=type=bind,source=docker.requirements.txt,target=/tmp/docker.requirements.txt \
+ pip3 install --requirement=/tmp/docker.requirements.txt --break-system-packages
+
+# Download default transformer model
+ARG DEFAULT_MODEL
+RUN --mount=type=cache,target=/root/.cache/huggingface \
+    --mount=type=cache,target=/root/.cache/torch \
+    <<EOF
+set -e
+python3 -c "__import__('sentence_transformers').SentenceTransformer(model_name_or_path='${DEFAULT_MODEL}', cache_folder='/root/.cache')"
+EOF
+
 COPY docker-entrypoint-initdb.d/00-create-extension-contrib.sql /docker-entrypoint-initdb.d/00-create-extension-contrib.sql
 COPY docker-entrypoint-initdb.d/01-create-extension.sql /docker-entrypoint-initdb.d/01-create-extension.sql
 
 LABEL com.docker.hub.postgres-hero.mjhpour.timezone="${TZ}"
 LABEL com.docker.hub.postgres-hero.mjhpour.postgres_version="${POSTGRES_VERSION}"
 LABEL com.docker.hub.postgres-hero.mjhpour.os="Debian GNU/Linux 12 (bookworm)"
-LABEL com.docker.hub.postgres-hero.mjhpour.extensions="age,pg_hashids,hll,dblink,plpython3u,plperl,pg_jobmon,pg_partman,uri,pg_cron"
+LABEL com.docker.hub.postgres-hero.mjhpour.extensions="age,dblink,faker,hll,ltree,pg_cron,pg_hashids,pg_jobmon,pg_partman,pg_trgm,pgRouting,pgvector,plperl,plpython3u,plr,PostGIS,uri"
 LABEL org.opencontainers.image.base.name="docker.io/postgres:${POSTGRES_VERSION}"
 LABEL org.opencontainers.image.description="Extended Postgres ${POSTGRES_VERSION} with pre installed set of open source extensions"
 LABEL org.opencontainers.image.licenses="Apache-2.0"

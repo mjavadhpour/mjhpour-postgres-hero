@@ -25,6 +25,8 @@ docker run --rm -p <HOST_PORT>:5432 \
 - https://github.com/citusdata/pg_cron
 - https://github.com/hydradatabase/hydra
 - https://github.com/pgvector/pgvector
+- https://pgrouting.org/
+- https://postgis.net
 
 #### TODO exts:
 - https://github.com/neondatabase/pg_embedding
