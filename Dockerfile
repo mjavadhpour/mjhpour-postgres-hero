@@ -89,7 +89,6 @@ RUN set -eux; \
     mkdir /tmp/pg_partman && wget -qO- "https://github.com/pgpartman/pg_partman/archive/refs/heads/master.tar.gz"                      | tar zxf - -C /tmp/pg_partman --strip-components=1; \
     mkdir /tmp/uri        && wget -qO- "https://github.com/petere/pguri/archive/refs/heads/master.tar.gz"                              | tar zxf - -C /tmp/uri        --strip-components=1; \
     mkdir /tmp/faker      && wget -qO- "https://gitlab.com/dalibo/postgresql_faker/-/archive/master/postgresql_faker-master.tar.gz"    | tar zxf - -C /tmp/faker      --strip-components=1; \
-    mkdir /tmp/pgvector   && wget -qO- "https://github.com/pgvector/pgvector/archive/refs/tags/v0.5.1.tar.gz"                          | tar zxf - -C /tmp/pgvector   --strip-components=1; \
     \
     # age
         cd /tmp/age \
@@ -119,10 +118,6 @@ RUN set -eux; \
         cd /tmp/faker \
         && pip3 install faker --break-system-packages \
         && make extension && make install; \
-    \
-    # pgvector
-        cd /tmp/pgvector \
-        && make && make install; \
     \
     # cleanup
         rm -rf /tmp/*;
